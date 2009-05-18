@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas 
+	width="100%" height="100%" 
+	creationComplete="connect()"
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:ns="AfcsNameSpace"
+	xmlns:common="net.seanhess.afcs.common.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.rtc.events.SharedPropertyEvent;
+			private var dragging:Boolean = false;
+		
+			private function connect():void
+			{
+				session.login();
+				property.subscribe();
+			}
+			
+			private function dragSquare():void
+			{
+				square.startDrag();
+				dragging = true;
+			}
+			
+			private function dropSquare():void
+			{
+				property.value = new Point(square.x, square.y);
+				square.stopDrag();
+				dragging = false;
+			}
+			
+			private function onChange(event:SharedPropertyEvent):void
+			{
+				var point:* = property.value;
+	
+				if (point && !dragging)
+				{
+					square.x = point.x;
+					square.y = point.y;
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<ns:LocalAuthenticator id="local"/>
+	<ns:AdobeHSAuthenticator id="admin" userName="seanhess+acfs1@gmail.com" password="cocomo"/>
+	
+	<ns:ConnectSession id="session" 
+		authenticator="{admin}"
+		roomURL="http://connectnow.acrobat.com/seanafcs1/tutorial"
+	/>
+	
+	<ns:SharedProperty id="property" 
+		connectSession="{session}"
+		sharedID="point"
+		change="onChange(event)"
+	/>
+	
+	<mx:Image id="square" 
+		source="assets/fish.jpg" 
+		mouseDown="dragSquare()" 
+		mouseUp="dropSquare()"
+	/>
+	
+	<!-- Progress Bar: Prevents interaction until we're syncshed -->
+	<common:LoadingOverlay visible="{!session.isSynchronized}"/>
+	
+</mx:Canvas>

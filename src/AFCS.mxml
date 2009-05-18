@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application  
+	layout="vertical" 
+	xmlns:examples="net.seanhess.afcs.examples.*" xmlns:mx="http://www.adobe.com/2006/mxml" viewSourceURL="srcview/index.html">
+	<mx:Panel width="100%" height="100%" title="{stack.selectedChild.label}">
+		<mx:ViewStack id="stack" width="100%" height="100%">
+			<examples:Whiteboard label="Whiteboard"/>
+			<examples:LotsOfPods label="Pods"/>
+			<examples:SharedPropertyList label="List"/>
+			<examples:SharedPropertyFish label="Fish"/>
+			<examples:SharedCollectionList label="Collection"/>
+			<examples:CustomChat label="Chat"/>
+		</mx:ViewStack>
+		<mx:ControlBar>
+			<mx:ToggleButtonBar dataProvider="{stack}"/>
+		</mx:ControlBar>
+	</mx:Panel>
+</mx:Application>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of AFCS</title>
+	<nodes>
+		<node label="src">
+			<node label="net.seanhess.afcs.common" icon="packageIcon" expanded="true">
+				<node label="LoadingOverlay.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/common/LoadingOverlay.mxml.html"/>
+				<node label="LoginOverlay.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/common/LoginOverlay.mxml.html"/>
+			</node>
+			<node label="net.seanhess.afcs.examples" icon="packageIcon" expanded="true">
+				<node label="CustomChat.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/examples/CustomChat.mxml.html"/>
+				<node label="LotsOfPods.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/examples/LotsOfPods.mxml.html"/>
+				<node label="SharedCollectionList.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/examples/SharedCollectionList.mxml.html"/>
+				<node label="SharedPropertyFish.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/examples/SharedPropertyFish.mxml.html"/>
+				<node label="SharedPropertyList.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/examples/SharedPropertyList.mxml.html"/>
+				<node label="Whiteboard.mxml" icon="mxmlIcon" url="source/net/seanhess/afcs/examples/Whiteboard.mxml.html"/>
+			</node>
+			<node selected="true" label="AFCS.mxml" icon="mxmlAppIcon" url="source/AFCS.mxml.html"/>
+		</node>
+	</nodes>
+</index>

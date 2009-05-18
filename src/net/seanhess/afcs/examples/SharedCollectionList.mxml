@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="connect()" xmlns:ns="AfcsNameSpace" xmlns:common="net.seanhess.afcs.common.*">
+	
+	<mx:Script>
+		<![CDATA[
+			private function connect():void
+			{
+				session.login();
+				collection.subscribe();
+			}
+			
+			private function add():void
+			{
+				var label:String = Math.floor(Math.random()*1000).toString(); // random 3 digit number
+				var item:Object = new Object();
+					item.label = label;
+					
+				collection.addItem(item);
+			}
+			
+			private function remove():void
+			{
+				if (list.selectedItem == null)
+					return;
+					
+				collection.removeItemAt(collection.getItemIndex(list.selectedItem));	
+			}
+		]]>
+	</mx:Script>
+	
+	<ns:LocalAuthenticator id="local"/>
+	<ns:AdobeHSAuthenticator id="admin" userName="seanhess+acfs1@gmail.com" password="cocomo"/>
+	
+	<ns:ConnectSession id="session" 
+		authenticator="{admin}"
+		roomURL="http://connectnow.acrobat.com/seanafcs1/tutorial"
+	/>
+	
+	<ns:SharedCollection id="collection"
+		connectSession="{session}"
+		sharedID="sharedCollectionList"
+		idField="label"
+	/>
+	
+	<mx:VBox width="100%" height="100%">
+		<mx:List id="list" 
+			width="100%" height="100%" 
+			dataProvider="{collection}"
+		/>
+		
+		<mx:HBox>
+			<mx:Button label="Add Item" click="add()"/>
+			<mx:Button label="Delete Item" click="remove()" enabled="{list.selectedItem}"/>
+		</mx:HBox>
+	</mx:VBox>
+	
+	<common:LoadingOverlay visible="{!session.isSynchronized}"/>
+	
+</mx:Canvas>

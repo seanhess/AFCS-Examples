@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="connect()" xmlns:ns="AfcsNameSpace" xmlns:common="net.seanhess.afcs.common.*">
+
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.rtc.messaging.MessageItem;
+			import com.adobe.rtc.events.CollectionNodeEvent;
+			import com.adobe.rtc.events.SessionEvent;
+
+			protected function connect():void
+			{
+				session.login();
+				node.subscribe();
+			}
+			
+			// when someone else chats // 
+			protected function onItemReceive(event:CollectionNodeEvent):void
+			{
+				if (event.item)
+					output.htmlText = "<b>" + event.item.body.name + ": </b>" + event.item.body.message + "<br />" + output.htmlText;
+			}
+			
+			// When we chat // 
+			protected function sendMessage():void
+			{
+				var body:Object = {name:username.text, message:input.text};
+				var message:MessageItem = new MessageItem("chatNode", body);	
+				
+				node.publishItem(message);
+				
+				input.text = "";
+			}
+		]]>
+	</mx:Script>
+	
+	<!-- Cocomo Stuff -->
+	<ns:LocalAuthenticator id="local"/>
+	<ns:AdobeHSAuthenticator id="admin" userName="seanhess+acfs1@gmail.com" password="cocomo"/>
+	
+	<ns:ConnectSession id="session" 
+		authenticator="{admin}"
+		roomURL="http://connectnow.acrobat.com/seanafcs1/tutorial"
+	/>
+	
+	<ns:CollectionNode id="node"
+		connectSession="{session}" 
+		sharedID="chatWithCustomMessaging"
+		itemReceive="onItemReceive(event)"
+	/>
+	
+	<!-- Display -->
+	<mx:VBox width="100%" height="100%">
+		<mx:TextArea id="output" width="100%" height="100%"/>
+		<mx:Form width="100%">
+			<mx:FormItem label="Username">
+				<mx:TextInput id="username" text="guest"/>
+			</mx:FormItem>
+			<mx:FormItem label="message">
+				<mx:TextInput id="input" width="100%" height="100%" enter="sendMessage()"/>
+				<mx:Button label="Send" click="sendMessage()"/>
+			</mx:FormItem>
+		</mx:Form>
+	</mx:VBox>
+	
+	<!-- Progress Bar: Prevents interaction until we're synched -->
+	<common:LoadingOverlay visible="{!session.isSynchronized}"/>
+
+</mx:Canvas>
